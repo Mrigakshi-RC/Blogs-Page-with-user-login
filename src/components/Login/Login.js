@@ -8,15 +8,30 @@ const emailReducer = (state,action) => {
   return { value:"", isValid: false};
 };
 
+const pwdReducer = (state,action) => {
+  if (action.type === "USER_INPUT"){
+    return {value: action.val, isValid:action.val.trim().length > 6}
+  }
+  return { value:"", isValid: false};
+};
+
 const Login = () => {
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value:"",
     isValid: undefined,
   });
 
+  const [pwdState, dispatchPwd] = useReducer(pwdReducer, {
+    value:"",
+    isValid: undefined,
+  });
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: "USER_INPUT", val: event.target.value});
+  }
+
+  const passwordChangeHandler = (event) => {
+    dispatchPwd({type: "USER_INPUT", val: event.target.value});
   }
   
   return (
@@ -36,12 +51,16 @@ const Login = () => {
           />
         </div>
         <div
-          className={classes.control}
+          className={`${classes.control} ${
+            pwdState.isValid === false ? classes.invalid : ''
+          }`}
         >
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
+            value={pwdState.value}
+            onChange={passwordChangeHandler}
           />
         </div>
         <div className={classes.actions}>
