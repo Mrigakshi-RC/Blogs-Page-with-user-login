@@ -67,6 +67,7 @@ const Login = () => {
             onChange={emailChangeHandler}
           />
         </div>
+        {!emailState.isValid && <p className={classes.error}>Please enter a valid email</p>}
         <div
           className={`${classes.control} ${
             pwdState.isValid === false ? classes.invalid : ''
@@ -80,6 +81,7 @@ const Login = () => {
             onChange={passwordChangeHandler}
           />
         </div>
+        {!pwdState.isValid && <p className={classes.error}>Please enter a valid password</p>}
         <div className={classes.actions}>
           <button type="submit" className={classes.button} disabled={!formIsValid}>
             Login

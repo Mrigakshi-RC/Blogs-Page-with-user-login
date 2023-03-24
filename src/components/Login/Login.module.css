@@ -46,6 +46,15 @@
     border-color: red;
     background: #fbdada;
   }
+
+  .error{
+    font-size:0.7rem;
+    margin-left:9rem;
+    margin-bottom:2rem;
+    margin-top:-0.5rem;
+    color:rgb(255,100,100);
+    letter-spacing:0.02rem;
+  }
   
   .actions {
     text-align: center;
