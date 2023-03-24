@@ -16,6 +16,7 @@ const pwdReducer = (state,action) => {
 };
 
 const Login = () => {
+  const [formIsValid, setFormIsValid] = useState(false);
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value:"",
     isValid: undefined,
@@ -25,6 +26,22 @@ const Login = () => {
     value:"",
     isValid: undefined,
   });
+
+  const {isValid: emailIsValid}=emailState;
+  const {isValid: pwdIsValid}=pwdState;
+
+  useEffect(() => { 
+    const identifier = setTimeout(() => {
+      setFormIsValid(
+        emailIsValid && pwdIsValid
+      );
+    }, 500);
+
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [emailIsValid, pwdIsValid]);
+
 
   const emailChangeHandler = (event) => {
     dispatchEmail({type: "USER_INPUT", val: event.target.value});
@@ -64,7 +81,7 @@ const Login = () => {
           />
         </div>
         <div className={classes.actions}>
-          <button type="submit" className={classes.button}>
+          <button type="submit" className={classes.button} disabled={!formIsValid}>
             Login
           </button>
         </div>
