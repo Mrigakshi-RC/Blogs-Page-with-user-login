@@ -1,40 +1,42 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import classes from './Login.module.css';
+import React, { useState, useEffect, useReducer } from "react";
+import classes from "./Login.module.css";
 
-const emailReducer = (state,action) => {
-  if (action.type === "USER_INPUT"){
-    return {value: action.val, isValid:action.val.includes('@') && action.val.includes('.')}
+const emailReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return {
+      value: action.val,
+      isValid: action.val.includes("@") && action.val.includes("."),
+    };
   }
-  return { value:"", isValid: false};
+  return { value: "", isValid: false };
 };
 
-const pwdReducer = (state,action) => {
-  if (action.type === "USER_INPUT"){
-    return {value: action.val, isValid:action.val.trim().length > 6}
+const pwdReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.trim().length > 6 };
   }
-  return { value:"", isValid: false};
+  return { value: "", isValid: false };
 };
 
 const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
+
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
-    value:"",
+    value: "",
     isValid: undefined,
   });
 
   const [pwdState, dispatchPwd] = useReducer(pwdReducer, {
-    value:"",
+    value: "",
     isValid: undefined,
   });
 
-  const {isValid: emailIsValid}=emailState;
-  const {isValid: pwdIsValid}=pwdState;
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: pwdIsValid } = pwdState;
 
-  useEffect(() => { 
+  useEffect(() => {
     const identifier = setTimeout(() => {
-      setFormIsValid(
-        emailIsValid && pwdIsValid
-      );
+      setFormIsValid(emailIsValid && pwdIsValid);
     }, 500);
 
     return () => {
@@ -42,26 +44,41 @@ const Login = (props) => {
     };
   }, [emailIsValid, pwdIsValid]);
 
-
   const emailChangeHandler = (event) => {
-    dispatchEmail({type: "USER_INPUT", val: event.target.value});
-  }
+    dispatchEmail({ type: "USER_INPUT", val: event.target.value });
+  };
 
   const passwordChangeHandler = (event) => {
-    dispatchPwd({type: "USER_INPUT", val: event.target.value});
-  }
+    dispatchPwd({ type: "USER_INPUT", val: event.target.value });
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
+    fetch("https://api-staging-v2.sploot.space/api/v2/auth/signin", {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({
+        username: "testassignment@gmail.com", //hardcoding only for testing purposes
+        password: "highlysecure",
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+
     props.onLogin(emailState.value, pwdState.value);
   };
-  
+
   return (
     <div className={`${classes.login} ${classes.card}`}>
       <form onSubmit={submitHandler}>
         <div
           className={`${classes.control} ${
-            emailState.isValid === false ? classes.invalid : ''
+            emailState.isValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="email">E-Mail</label>
@@ -72,10 +89,12 @@ const Login = (props) => {
             onChange={emailChangeHandler}
           />
         </div>
-        {emailState.isValid===false && <p className={classes.error}>Please enter a valid email</p>}
+        {emailState.isValid === false && (
+          <p className={classes.error}>Please enter a valid email</p>
+        )}
         <div
           className={`${classes.control} ${
-            pwdState.isValid === false ? classes.invalid : ''
+            pwdState.isValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="password">Password</label>
@@ -86,9 +105,15 @@ const Login = (props) => {
             onChange={passwordChangeHandler}
           />
         </div>
-        {pwdState.isValid===false && <p className={classes.error}>Please enter a valid password</p>}
+        {pwdState.isValid === false && (
+          <p className={classes.error}>Please enter a valid password</p>
+        )}
         <div className={classes.actions}>
-          <button type="submit" className={classes.button} disabled={!formIsValid}>
+          <button
+            type="submit"
+            className={classes.button}
+            disabled={!formIsValid}
+          >
             Login
           </button>
         </div>
