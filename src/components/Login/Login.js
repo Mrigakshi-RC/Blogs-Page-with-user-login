@@ -15,7 +15,7 @@ const pwdReducer = (state,action) => {
   return { value:"", isValid: false};
 };
 
-const Login = () => {
+const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value:"",
@@ -50,10 +50,15 @@ const Login = () => {
   const passwordChangeHandler = (event) => {
     dispatchPwd({type: "USER_INPUT", val: event.target.value});
   }
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    props.onLogin(emailState.value, pwdState.value);
+  };
   
   return (
     <div className={`${classes.login} ${classes.card}`}>
-      <form>
+      <form onSubmit={submitHandler}>
         <div
           className={`${classes.control} ${
             emailState.isValid === false ? classes.invalid : ''
