@@ -71,6 +71,7 @@ const Login = (props) => {
       })
       .then((data) => {
         const authToken = data.data.data.authToken;
+        userCtx.authToken=authToken;
         let response=fetch("https://api-staging-v2.sploot.space/api/v2/user", {
           method: "GET",
           headers: {"Authorization" : `Bearer ${authToken}`},
