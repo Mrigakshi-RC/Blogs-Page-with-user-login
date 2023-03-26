@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import classes from "./Login.module.css";
+import { useContext } from "react";
+import UserContext from "../store/user-context";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -19,8 +21,9 @@ const pwdReducer = (state, action) => {
 };
 
 const Login = (props) => {
+  const userCtx= useContext(UserContext);
+
   const [formIsValid, setFormIsValid] = useState(false);
-  const [userInfo, setUserInfo] = useState([]);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value: "",
@@ -79,7 +82,7 @@ const Login = (props) => {
         return response.json();
       })
       .then((data) => {
-        setUserInfo(data.data.data);
+        userCtx.userInfo=data.data.data;
       })
       .catch((error) => {
         console.error(error.message);
