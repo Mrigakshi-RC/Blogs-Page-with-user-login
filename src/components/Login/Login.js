@@ -20,6 +20,7 @@ const pwdReducer = (state, action) => {
 
 const Login = (props) => {
   const [formIsValid, setFormIsValid] = useState(false);
+  const [userInfo, setUserInfo] = useState([]);
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value: "",
@@ -56,22 +57,34 @@ const Login = (props) => {
     event.preventDefault();
     fetch("https://api-staging-v2.sploot.space/api/v2/auth/signin", {
       method: "POST",
-      mode: "cors",
       body: JSON.stringify({
-        username: "testassignment@gmail.com", //hardcoding only for testing purposes
-        password: "highlysecure",
+        username: emailState.value,
+        password: pwdState.value,
       }),
+      headers: { "Content-Type": "application/json" },
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        const authToken = data.data.data.authToken;
+        let response=fetch("https://api-staging-v2.sploot.space/api/v2/user", {
+          method: "GET",
+          headers: {"Authorization" : `Bearer ${authToken}`},
+        });
+        return response;
+      })
+      .then((response) => {
+        console.log(response)
+        return response.json();
+      })
+      .then((data) => {
+        setUserInfo(data.data.data);
       })
       .catch((error) => {
         console.error(error.message);
       });
-
+    
     props.onLogin(emailState.value, pwdState.value);
   };
 
