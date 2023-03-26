@@ -4,7 +4,7 @@ import { useContext, useEffect } from "react";
 import BlogContext from "../store/blog-context";
 import SoloCat from "./SoloCat";
 
-function Blogs() {
+function CategoryHeader() {
   const blogCtx = useContext(BlogContext);
 
   const {items}=blogCtx;
@@ -24,4 +24,4 @@ function Blogs() {
   );
 }
 
-export default Blogs;
+export default CategoryHeader;
