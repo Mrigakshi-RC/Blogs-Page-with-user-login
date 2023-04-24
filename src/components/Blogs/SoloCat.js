@@ -1,11 +1,6 @@
 import React from "react";
-import { useContext} from "react";
-import BlogContext from "../store/blog-context";
-// import classes from "./SoloCat.module.css";
 
 function SoloCat(props) {
-  const blogCtx = useContext(BlogContext);
-  console.log(blogCtx);
   return (
     <React.Fragment>
       <div>

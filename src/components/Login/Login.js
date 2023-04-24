@@ -1,8 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
 import classes from "./Login.module.css";
-import { useContext } from "react";
-import UserContext from "../store/user-context";
-import BlogContext from "../store/blog-context";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -22,8 +19,6 @@ const pwdReducer = (state, action) => {
 };
 
 const Login = (props) => {
-  const userCtx = useContext(UserContext);
-  const blogCtx = useContext(BlogContext);
 
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -73,7 +68,7 @@ const Login = (props) => {
       })
       .then((data) => {
         const authToken = data.data.data.authToken;
-        userCtx.authToken = authToken;
+        // userCtx.authToken = authToken;
         let response = fetch(
           "https://api-staging-v2.sploot.space/api/v2/user",
           {
@@ -87,29 +82,19 @@ const Login = (props) => {
         console.log(response);
         return response.json();
       })
-      .then((data) => {
-        userCtx.userInfo = data.data.data;
-      })
-      .then(() => {
-        let request = fetch(
-          "https://api-staging-v2.sploot.space/api/v2/cms/post-categories",
-          {
-            method: "GET",
-            headers: { Authorization: `Bearer ${userCtx.authToken}` },
-          }
-        );
-        return request;
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        blogCtx.categories = data.data.data;
-        console.log(blogCtx.categories);
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
+      // .then((data) => {
+      //   userCtx.userInfo = data.data.data;
+      // })
+      // .then(() => {
+      //   let request = fetch(
+      //     "https://api-staging-v2.sploot.space/api/v2/cms/post-categories",
+      //     {
+      //       method: "GET",
+      //       headers: { Authorization: `Bearer ${userCtx.authToken}` },
+      //     }
+      //   );
+      //   return request;
+      // })
 
     props.onLogin(emailState.value, pwdState.value);
   };
