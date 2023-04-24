@@ -76,25 +76,22 @@ const Login = (props) => {
             headers: { Authorization: `Bearer ${authToken}` },
           }
         );
+        return authToken;
+      })
+      .then((token) => {
+        let response = fetch(
+          "https://api-staging-v2.sploot.space/api/v2/cms/post-categories",
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         return response;
       })
       .then((response) => {
-        console.log(response);
         return response.json();
       })
-      // .then((data) => {
-      //   userCtx.userInfo = data.data.data;
-      // })
-      // .then(() => {
-      //   let request = fetch(
-      //     "https://api-staging-v2.sploot.space/api/v2/cms/post-categories",
-      //     {
-      //       method: "GET",
-      //       headers: { Authorization: `Bearer ${userCtx.authToken}` },
-      //     }
-      //   );
-      //   return request;
-      // })
+      .then((data)=>console.log(data.data.data)); //this is the category data
 
     props.onLogin(emailState.value, pwdState.value);
   };
