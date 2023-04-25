@@ -93,7 +93,8 @@ const Login = (props) => {
       })
       .then((data)=>console.log(data.data.data)); //this is the category data
 
-    props.onLogin(emailState.value, pwdState.value);
+      //like the line below, pass the auth token to the App cmp
+      props.onLogin(emailState.value, pwdState.value);
   };
 
   return (
