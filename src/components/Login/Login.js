@@ -68,7 +68,9 @@ const Login = (props) => {
       })
       .then((data) => {
         const authToken = data.data.data.authToken;
-        // userCtx.authToken = authToken;
+        props.onPass(authToken)
+        props.onLogin(emailState.value, pwdState.value);
+        
         let response = fetch(
           "https://api-staging-v2.sploot.space/api/v2/user",
           {
@@ -76,25 +78,7 @@ const Login = (props) => {
             headers: { Authorization: `Bearer ${authToken}` },
           }
         );
-        return authToken;
       })
-      .then((token) => {
-        let response = fetch(
-          "https://api-staging-v2.sploot.space/api/v2/cms/post-categories",
-          {
-            method: "GET",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        return response;
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data)=>console.log(data.data.data)); //this is the category data
-
-      //like the line below, pass the auth token to the App cmp
-      props.onLogin(emailState.value, pwdState.value);
   };
 
   return (
