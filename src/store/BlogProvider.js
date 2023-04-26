@@ -7,12 +7,12 @@ const defaultBlogState ={
 
 const BlogProvider = (props) => {
     const [categoryState,setCategory]=useState();
-    const updateCategory=value=>{
-        setCategory(value);
+    const categoryUpdate=val=>{
+        setCategory(val);
     }
     const blogContext = {
         categories: categoryState,
-        updateCategory:updateCategory
+        updateCategory:categoryUpdate
     }
     return <BlogContext.Provider value={blogContext}>
         {props.children}

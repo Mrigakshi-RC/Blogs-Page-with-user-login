@@ -18,7 +18,8 @@ function Blogs(props) {
       return response.json();
     })
     .then((data)=>{
-      blogCtx.categories=data.data.data;
+      console.log(blogCtx)
+      blogCtx.updateCategory.bind(null, data.data.data);//TODO: make this work
       console.log(blogCtx)
     });
   },[])
