@@ -1,10 +1,11 @@
-import React, {useEffect,useContext} from "react";
+import React, {useEffect,useContext,useState} from "react";
 import classes from "./Blogs.module.css";
 import CategoryHeader from "./CategoryHeader";
 import BlogContext from "../../store/blog-context";
 
 function Blogs(props) {
   const blogCtx=useContext(BlogContext)
+  const [show, setShow]=useState();
 
   useEffect(()=>{
     fetch(
@@ -18,9 +19,8 @@ function Blogs(props) {
       return response.json();
     })
     .then((data)=>{
-      console.log(blogCtx)
-      blogCtx.updateCategory.bind(null, data.data.data);//TODO: make this work
-      console.log(blogCtx)
+      blogCtx.updateCategory(data.data.data);
+      setShow(data.data.data[0].name)
     });
   },[])
   
@@ -28,6 +28,7 @@ function Blogs(props) {
   return (
     <React.Fragment>
       <CategoryHeader />
+      <p>{show}</p>
       <div className={classes.gridContainer}></div>
     </React.Fragment>
   );
