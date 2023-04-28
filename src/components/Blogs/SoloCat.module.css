@@ -1,5 +1,8 @@
-img{
+.container{
+    width:10%;
+    height:10%;
+}
+.container img{
     width:5rem;
     height:5rem;
-    object-fit:cover
 }

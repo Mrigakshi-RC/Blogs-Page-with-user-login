@@ -1,14 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import classes from "./CategoryHeader.module.css";
 import SoloCat from "./SoloCat";
+import BlogContext from "../../store/blog-context";
 
 function CategoryHeader() {
-  const categories=[];
+  const blogCtx=useContext(BlogContext)
+  const categories=blogCtx.categories;
 
   return (
     <React.Fragment>
       <div className={classes.headerContainer}>
-        {categories.map((category) => (
+        {categories && categories.map((category) => (
           <SoloCat
             name={category.name}
             imageUrl={category.imageUrl}

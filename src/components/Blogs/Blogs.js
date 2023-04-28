@@ -20,7 +20,7 @@ function Blogs(props) {
     })
     .then((data)=>{
       blogCtx.updateCategory(data.data.data);
-      setShow(data.data.data[0].name)
+      blogCtx.updateSlug(data.data.data[0].slug);
     });
   },[])
   
@@ -28,7 +28,6 @@ function Blogs(props) {
   return (
     <React.Fragment>
       <CategoryHeader />
-      <p>{show}</p>
       <div className={classes.gridContainer}></div>
     </React.Fragment>
   );
