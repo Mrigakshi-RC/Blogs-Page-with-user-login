@@ -7,7 +7,7 @@ function CategoryHeader() {
   const blogCtx=useContext(BlogContext)
   const categories=blogCtx.categories;
 
-  return (
+  return ( //TODO: add onclick to each
     <React.Fragment>
       <div className={classes.headerContainer}>
         {categories && categories.map((category) => (
@@ -15,7 +15,7 @@ function CategoryHeader() {
             name={category.name}
             imageUrl={category.imageUrl}
           />
-        ))}
+        ))} 
       </div>
     </React.Fragment>
   );

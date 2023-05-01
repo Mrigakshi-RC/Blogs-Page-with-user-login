@@ -15,7 +15,7 @@ const BlogProvider = (props) => {
       "https://api-staging-v2.sploot.space/api/v2/public/cms/post-categories/"+val
     )
       .then((response) => response.json())
-      .then((data) => console.log(data.data.data));//set slug here
+      .then((data) => setSlug(data.data.data));//set slug here
   }
 
   const blogContext = {
